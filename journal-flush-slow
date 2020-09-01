@@ -1,0 +1,10 @@
+run the following command:
+
+1. check disk usage:
+journalctl --disk-usage
+
+2. clean up space:
+sudo journalctl --rotate --vacuum-size=1G --vacuum-time=1weeks --vacuum-files=7
+
+3. edit /etc/systemd/journald.conf
+
