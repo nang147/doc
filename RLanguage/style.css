@@ -1,0 +1,168 @@
+body
+{
+	background-color: #f4f4f4;
+	color: #555555
+	
+	font-family: Times New Roman, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-weight: normal;
+	
+	font: bold 12pt Computer Modern, Helvetica, sans-serif;
+}
+
+.box1
+{
+	
+	background-color: purple;
+	color: blue;
+	
+	border: 1em blie solid;
+	border-right: 1em yellow solid;
+	border-left: 2em orange solid;
+	border-top: 3em green dotted;
+	border-bottom: 2em firebrick double;
+	
+	border-bottom-width: 1ex;
+	border-bottom-style: dashed;
+	
+	padding-top: 1ex;
+	padding-bottom: 1ex;
+	padding-left: 10pt;
+	padding-right: 5pt;
+	
+	margin-top: 50px;
+	
+	position: relative;
+	top: 30px;
+	left: 10px;
+}
+
+.box1 h1
+{
+	font-family: "Times New Roman", Times, serif;
+	font-weight: 800;
+	font-style: italic;
+	text-decoration: underline;
+	text-transform: uppercase;
+	latter-spacing: 1ex;
+	word-spacing: 2ex
+}
+
+.list
+{
+	list-style-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Black_check.svg/900px-Black_check.svg.png")
+	list-style: none;
+}
+
+.box2
+{
+	border: 5px dotted #cccccc;
+	border-radius: 2em;
+	padding: 20px;
+	margin: 20px 0px;
+	
+	position: relative;
+	top: 30px;
+	left: 30px;
+}
+
+.box2 h1
+{
+	text-align: center;	
+}
+
+button
+{
+	background-color: #444444;
+	color: #ffffff;
+	padding: 10px 15px;
+}
+
+button:hover
+{
+	background: red;
+}
+
+button.active
+{
+	background-color: white;
+}
+
+a
+{
+	text-decoration: none;
+	color: cyan;
+}
+
+a:hover
+{
+	color: purple;
+}
+
+a:visited
+{
+	color: red;
+}
+
+.block
+{
+	float: left;
+	width: 33.3%;
+	border: 1ex green dotted;
+	box-sizing: border-box;
+}
+
+#main-block
+{
+	float: left;
+	width: 70%;
+	border: 1ex green solid;
+	box-sizing: border-box;
+}
+
+#sidebar
+{
+	float: right;
+	width: 30%;
+	border: 1ex green solid;
+	box-sizing: border-box;
+}
+
+.clearfix
+{
+	clear: both;
+}
+
+.list2 li:nth-child(even)
+{
+	background-color: grey;
+}
+
+.list2 li:first-child
+{
+	background-color: red;
+}
+
+.list2 li:nth-child(3)
+{
+	color: purple;
+}
+
+.position-box
+{
+	width: 500px;
+	height: 500px;
+	border: 1px solid black;
+}
+
+#fix
+{
+	position: relative;
+	right: 200px;
+	buttom: 200px;
+}
+
+.container{
+	width: 80%;
+	margin: auto;
+}

@@ -1,0 +1,80 @@
+\documentclass{beamer} 
+
+\usepackage{adjmulticol}
+
+%\usetheme{Warsaw} %there are many themes that can use
+%\usecolortheme{crane} %colortheme instead of theme, which can co-exist with theme
+%\setbeamercolor{background canvas}{bg=pink} %set background color	
+
+\begin{document}
+\begin{frame}
+\title{Basic Beamer}
+%\subtitle{Subtitle Here}
+\author{}
+\date{}
+\institute{institute}
+\titlepage %build a titlepage with the information above
+\end{frame}
+
+\begin{frame}{Required packages}
+\begin{enumerate} %[A] you can add this to change the style of numbering
+\item beamer
+\item pgf
+\item etoolbox
+\item ms
+\item url
+\item sansmathaccent
+\item filehook
+\item translator
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[t]{Themes} \vspace{3mm} %\vspace are used to add verticle space after title
+You can find beamer themes on \textbf{beamer-theme-matrix}\\
+You can apply color theme together with theme\\
+You may be able to create your own color theme by the command \textbackslash  definecolor\\
+You can set background color by using command\\
+\textbackslash setbeamercolor\{background canvas\}\{bg=color\}
+\end{frame}
+
+\begin{frame}[t]{Basic}
+\setbeamercovered{transparent = 15} %use to control the transparacy of hidden text
+\only<1>{ \begin{block}{Create a block}
+Line one of this block\\
+Line two of this block
+\end{block} 
+\textcolor{blue}{You can change text color}\\}
+One frame can contain multiple slides.\\
+You can also set details that appear on which slide in a frame by using the command \textbackslash only.\linebreak
+\only<1>{You can only break this line by \textbackslash linebreak, I don't know why}\\
+\only<2>{This will only show in slide two, it will completely delete\\} %notice the use of \\
+\onslide<2>{You can also use onslide to do so, but it is only hidden\\}
+\onslide<3>{Note that onslide is only to hide the text, which means to make them transparent}
+\only<3>{This will only show in slide three}
+\only<1-2>{This will only show in slides one and two, you can see this is affected by hidden text\\}
+\only<1->{This will show in the slides after slide one\\}
+\end{frame}
+
+\begin{frame}{Columns: method 1}
+\begin{columns}[onlytextwidth] %[onlytextwidth] help alignment
+\column{0.5 \textwidth}
+%\column{definw width}, here is that only text width is this column and there are two columns each occupy 0.5 textwidth
+xxx
+\column{0.5 \textwidth}
+xxx
+%you can \includegraphics[scale=•]{•} to add picture
+\end{columns}
+\end{frame}
+
+\begin{frame}{Columns: method 2 using external package}
+\begin{multicols}{3}
+column 1 \\ column 2 \\ column 3 
+\end{multicols}
+\begin{enumerate}
+\begin{multicols}{2}
+\item This is from package "adjmulticol"
+\item multicols can be used under enumerate environment
+\end{multicols}
+\end{enumerate}
+\end{frame}
+\end{document}

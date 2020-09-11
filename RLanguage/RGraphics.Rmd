@@ -1,0 +1,173 @@
+---
+title: R Graphics
+Author: NG
+Date: today
+Output: html_document
+---
+
+# base, grid, lattice, ggplot2
+
+# Scatter Plots
+
+## base
+* plot() function
+* col, pch parameters to adjust colour and style
+```{r}
+plot(iris$Petal.Length, iris$Petal.Width, 
+     col = "red", pch = 2)
+```
+
+* Use layout() function to display multiple graphics
+```{r}
+par(mar = c(3, 3, 0.5, 0.5), oma = rep.int(0, 4), mgp = c(2, 1, 0))
+species = levels(iris$Species)
+plot_numbers = seq_along(species)
+layout(matrix(plot_numbers, ncol = 3, byrow = TRUE))
+for(s in species) {
+  data.by.species = subset(iris, Species == s)
+  with(data.by.species, plot(Sepal.Length, Sepal.Width))
+}
+```
+
+## lattice
+* xyplot()
+
+## ggplot2
+* ggplot() function with parameter geom_plot()
+
+# Line Plots
+
+## base
+* plot() function with parameter type = "1"
+* lines() function to add additional line
+```{r}
+set.seed(1)
+y1 <- cumsum(rnorm(100))
+x <- seq_along(y1)
+plot(x, y1, type = "l", ylim = c(-5, 20))
+y2 <- y1 + abs(rnorm(100, 3))
+lines(x, y2, col = "blue")
+```
+
+## lattice
+* xyplot() function with parameter type = "1"
+
+## ggplot2
+* ggplot() function with parameter geom_line()
+
+# Histograms
+
+## base
+* hist() function
+* Add parameter freq = FALSE if want to have total area = 1
+* Add parameter breaks to define number of bar
+```{r}
+hist(iris$Sepal.Width)
+hist(iris$Sepal.Width, breaks = c(2, 2.7, 3, 3.5, 4.5))
+```
+
+## lattice
+* histogram() function
+* y axis adjust by parameter type
+* 3 types can be choose: percent, count, density
+* parameter break is the same as hist() function
+
+## ggplot2
+* ggplot() function with parameter geom_histogram()
+* Parameter bins in geom_histogram() can define number of bin
+
+# Box Plots
+
+## base
+* boxplot() function
+```{r}
+boxplot(InsectSprays$count)
+# draw for count according to spray
+boxplot(count ~ spray, data = InsectSprays)
+# define data frame to order
+my.InsectSprays <- within(InsectSprays,  spray <- (reorder(spray, count, median)))
+boxplot(count ~ spray, data = my.InsectSprays)
+```
+
+## lattice
+* bwplot() function
+* Similar to boxplot() function
+
+## ggplot2
+* ggplot() function with parameter geom_boxplot()
+
+# Bar Plots
+
+## base
+* barplot() function
+* Use parameter names.arg to define the name of each bar
+* Use parameter horiz = TRUE to switch to horizontal bar
+* Word orientation have to apply par(las = 1, mar = c(3, 5, 1, 1))
+* las = 1 means horizontal
+* mar means margin from below, left, top to right
+```{r}
+gear.table <- table(mtcars$gear)
+barplot(gear.table, names.arg = c("Three", "Four", "Five"))
+par(las = 1, mar = c(3, 5, 1, 1))
+barplot(gear.table, names.arg = c("Three", "Four", "Five"), horiz = TRUE)
+```
+
+* Combine to data set in one chart
+* Add parameter beside = TRUE to seperate
+```{r}
+gear.table2 <- table(mtcars$vs, mtcars$gear)
+barplot(gear.table2)
+barplot(gear.table2, beside = TRUE)
+```
+
+## lattice
+* barchart() function
+* Add parameter stack = FALSE to seperate bars
+
+## ggplot2
+* ggplot() function with parameter geom_bar()
+* Add parameter position = "dodge" in geom_bar() to split bars
+* Add parameter coord_flip() to create horizontal bar
+
+# Pie chart
+
+## base
+* pie() function
+* Use par(mar = c(1 ,1 ,1 ,1)) to control size
+* Add parameter labels to define names
+```{r}
+pie(gear.table, labels = c("Three", "Four", "Five"))
+```
+
+## lattice
+* No Function Provided
+
+## ggplot2
+* Create by combining bar chat and then cut to circle
+* Use coord_polar to transform
+* Add theme_void to hide axes of bar chart
+* Syntax as below
+```{r, eval = FALSE}
+pie <- ggplot(mtcars,
+  aes(x = factor(1), fill = factor(gear))) +
+  geom_bar(width = 1)
+pie # create bar chart
+pie <- pie + coord_polar(theta = "y")
+pie # transform to circular shape
+pie <- pie + theme_void()
+pie # hide axes
+```
+
+# Other plotting packages
+
+* vcd: 
+* plotrix: 
+* hexbin: 
+* scatterplot3d: 
+* misc3d: 
+* rgl: Use OpenGL to plot 3D graph 
+* rggob: Use GGobi in R
+* igraph: 
+* plotly: Plotly for R 
+
+* Check plotting packages from CRAN Task View

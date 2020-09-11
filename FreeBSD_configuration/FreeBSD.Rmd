@@ -1,0 +1,191 @@
+---
+title: "FreeBSD configuration"
+Author: "NG"
+Date: "26 June 2020"
+output: pdf_document
+---
+
+### Installation and update system
+```{}
+pkg update
+pkg upgrade
+```
+
+### Stop buzzer
+```{}
+sysctl kern.vt.enable_bell=0
+echo "kern.vt.enable_bell=0" >> /etc/sysctl.conf
+```
+
+### Start firewall
+```{}
+sysrc firewall_enable="YES"
+sysrc firewall_type="workstation"
+```
+
+### Install graphic driver
+```{}
+pkg install drm-kmod
+echo "kld_list="/boot/modules/i915kms.ko"" >> /etc/rc.conf
+```
+
+### Install sudo and configure sudoers
+```{}
+pkg install sudo
+visudo
+# add username under root and follow the syntax
+```
+
+### Install X Window
+```{}
+pkg install xorg
+
+# Test
+startx
+# It should start twm which is the default display manager
+# Ctrl+Alt+F1 to go back to tty1 console
+```
+
+### Install git
+```{}
+pkg install git
+```
+
+### Install suckless dwm, dmenu, st
+```{}
+# dwm
+git clone https://git.suckless.org/dwm
+
+# dmenu
+git clone https://git.suckless.org/dmenu
+
+# st
+git clone https://git.suckless.org/st
+
+# Install depecdencies for st
+pkg install pkgconf (for pkg-config)
+pkg install ncurses (for tic, i.e. terminfo)
+
+# Edit config.mk of each
+X11INC = /usr/X11R6/include -> X11INC = /usr/local/include
+X11LIB = /usr/X11R6/lib -> X11LIB = /usr/local/lib
+FREETYPEINC = /usr/include/freetype2 -> FREETYPEINC = /usr/local/include/freetype2
+
+# Customization one by one
+cp config.def.h config.h
+# Edit config.h
+
+# Install one by one
+make clean install
+```
+
+### Edit .xinitrc
+```{}
+cp /usr/local/etc/X11/xinit/xinitrc ~/.xinitrc
+echo "dwm" >> ~/.xinitrc
+```
+
+### Load mouse module
+```{}
+echo "moused_enable=YES" >> /etc/rc.conf
+service moused restart
+```
+
+### Configure TOR, obfs4proxy, privoxy
+```{}
+pkg install tor obfs4proxy-tor privoxy
+sysrc privoxy_enable=YES
+sysrc tor_enable=YES
+service privoxy start
+service tor start
+# Enable random_id sysctl
+echo "net.inet.ip.random_id=1" >> /etc/sysctl.conf
+sysctl net.inet.ip.random_id=1
+```
+#### Configure TOR
+```{}
+vi /usr/local/etc/tor/torrc
+# Add the following at the end
+RunAsDaemon 1
+BridgeRelay 1
+ORPort 9050
+ServerTransportPlugin obfs4 exec /usr/local/bin/obfs4proxy
+ServerTransportListenAddr obfs4 127.0.0.1:8118
+ExORPort auto
+# Exclude risky nodes
+ExcludeNodes  {cn},{hk},{mo},{kp},{ir},{sy},{pk},{cu},{vn},{ru},{by}
+StrictNodes  1
+Log notice file /var/log/tor/notices.log
+```
+#### Configure privoxy
+```{}
+# After starting privoxy, edit config file
+vi /usr/local/etc/privoxy/config
+# Command the following line and add to the end
+listen-address 127.0.0.1:8118
+# Forward all to tor network (port 9050)
+forward-socks4a / 127.0.0.1:9050 .
+# If only want to forward .onion to tor network
+forward-socks4a .onion 127.0.0.1:9050 .
+# Note the lower rule will overwrite upper rule 
+```
+#### Disable firefox java scripts
+```{}
+about:config -> javascript.enabled=false
+about:config -> network.proxy.socks_remote_dns=true
+```
+#### Checking
+```{}
+# Check proxy
+http://p.p/
+# Check tor connection
+https://check.torproject.org
+```
+
+### VirtualBox Host
+```{}
+# Install VirtualBox
+pkg install virtualbox-ose
+# Load VirtualBox kernel module
+kldload vboxdrv
+echo 'vboxdrv_load="YES"' >> /boot/loader.conf
+# Enable bridged or host-only networking
+echo 'vboxnet_enable="YES"' >> /etc/rc.conf
+# Add user to vboxusers group
+pw groupmod vboxusers -m username
+# Change permission for bridged networking
+chown root:vboxusers /dev/vboxnetctl
+chmod 0660 /dev/vboxnetctl
+# For permanent changing
+echo "own    vboxnetctl root:vboxusers" >> /etc/devfs.conf
+echo "perm   vboxnetctl 0660" >> /etc/devfs.conf
+```
+#### Add USB support
+```{}
+# Add user to operator group
+pw groupmod operator -m username
+# Edit /etc/devfs.rules
+[system=10]
+add path 'usb/*' mode 0660 group operator
+# Load rules
+echo 'devfs_system_ruleset="system"'
+# Restart devfs
+service devfs restart
+```
+
+### VirtualBox Guest
+```{}
+# Install VirtualBox addition package
+pkg install virtualbox-ose-additions
+# Edit /etc/rc.conf
+vboxguest_enable="YES"
+vboxservice_enable="YES"
+# If ntpd or ntpdate is used, disable host time synchronization
+vboxservice_flags="--disable-timesync"
+# To use the vboxmouse driver, adjust the mouse section in /etc/X11/xorg.conf
+Section "InputDevice"
+	Identifier "Mouse0"
+	Driver "vboxmouse"
+EndSection
+# Copy 90-vboxguest.fdi from /usr/local/share/hal/fdi/policy/10osvendor/ to /usr/local/etc/hal/fdi/policy/
+```

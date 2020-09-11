@@ -1,0 +1,54 @@
+---
+title: R Packages
+Author: NG
+Date: today
+output: html_document
+---
+
+# Basic
+
+* Use install.packages() function to install packages
+* Install "devtools" if want to install packages from GitHub
+* Then use install_github() function to install
+
+* Use update.packages() to update packages
+* Add arguement ask = FALSE to omit notice
+* Can add packages name as arguement to update specific packages only
+
+* Use library() function to import package
+* Use require() function to import package
+* library() will cause error if specified package does not exit
+* require() will return TRUE or FALSE but not error
+
+* Use search() function to list loaded package
+```{r}
+search()
+```
+
+* Use installed.packages() function to list installed packages
+* Return will be data frame
+* Use view() function to display in table
+* Use R.home("library") function or .Library variable to check the directory
+* Use path.expand("~") and Sys.getenv("HOME") to check the path
+```{r}
+.Library
+path.expand("~")
+Sys.getenv("HOME")
+```
+
+* .libPaths() function to list the path when searching packages
+* Adjust path to search in other path
+* Can add additional path to R_LIBS
+```{r}
+# path <- .libPaths() ; .libPaths(c(path, "D:/my_lib"))
+.libPaths()
+```
+
+# Suggested packages
+
+* lattice: provided useful function for plotting
+* ggplot2: provided powerful function for plotting
+
+
+
+

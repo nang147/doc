@@ -1,0 +1,70 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{xeCJK} %auto load "fontspec" package
+	\setmainfont{Times New Roman} %設主字型為 "Times New Roman"
+	\defaultCJKfontfeatures{AutoFakeBold = 6, AutoFakeSlant = 0.4} 
+		%以後不用再設定粗斜
+		%AutoFakeBold設定粗體字要多粗
+		%AutoFakeSlant設定斜體字要多斜，範圍-0.999到0.999，負值為往左斜
+	\setCJKmainfont{新細明體}	%設中文字體字型為 "新細明體"
+		%以下四行非必要，但對於切換字型蠻好用的
+	\newCJKfontfamily \Kai{標楷體}       	%定義指令\Kai則切換成標楷體
+	\newCJKfontfamily \Hei{微軟正黑體}   	%定義指令\Hei則切換成正黑體
+	\newCJKfontfamily \NewMing{新細明體} 	%定義指令\NewMing則切換成新細明體
+	\XeTeXlinebreaklocale "zh"             	%這兩行一定要加，中文才能自動換行
+	\XeTeXlinebreakskip = 0pt plus 1pt     	%這兩行一定要加，中文才能自動換行
+
+\usepackage[margin = 1in]{geometry} %1in=25.4mm
+\usepackage[UKenglish]{babel}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+
+%\usepackage{textcomp} %do not load for xelatex because it read T1 font while xelatex read UTF-8
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{adjmulticol}
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{array}
+
+\usepackage{gensymb} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\begin{document}
+\begin{center} \Large \textbf{如何使用 Xe\LaTeX 輸出中文PDF} \end{center}
+
+\subsection*{設定}
+1. 打開 ``Configure Texmaker''\\
+2. 修改 ``Quick Build'' 為 ``XeLatex + View PDF''\\
+3. 修改 ``Editor Font Encoding'' 為 UTF-8\\
+4. 安裝 ``xecjk'' package 及 ``l3kernel'' package
+
+\subsection*{載入套件}
+輸入 \textbackslash usepackage\{xeCJK\} ，此套件會自動載入 ``fontspec''\\
+輸入 \textbackslash setmainfont\{`mainfont'\} ，設定主字型為 `mainfont'，`mainfont' 可為 `Times New Roman' 等系統字體\\
+輸入 \textbackslash defaultCJKfontfeatures\{AutoFakeBold=6, AutoFakeSlant=0.4\} ，設定默認粗斜，\linebreak
+AutoFakeBold 設定粗體字要多粗、AutoFakeSlant 設定斜體字要多斜，範圍由 -0.999到 0.999，負值為往左斜，如所選字型已有定義粗斜則可不用加，新細明體因沒有定義所以必需加
+輸入 \textbackslash setCJKmainfont\{`字體'\} ，設中文字型為 `字體'，`字體'可為`新細明體'等系統字體\\
+輸入 \textbackslash XeTeXlinebreaklocale ``zh" 及 \textbackslash XeTeXlinebreakskip = 0pt plus 1pt，這兩行一定要加，中文才能自動換行\\
+以下四行非必要，但對於切換字型蠻好用的\\
+\textbackslash newCJKfontfamily \textbackslash Kai\{標楷體\} ，定義指令 \textbackslash Kai 則切換成標楷體\\
+\textbackslash newCJKfontfamily \textbackslash Hei\{微軟正黑體\} ，定義指令 \textbackslash Hei 則切換成正黑體\\
+\textbackslash newCJKfontfamily \textbackslash NewMing\{新細明體\} ，定義指令 \textbackslash NewMing 則切換成新細明體
+
+\subsection*{範例}
+\textbackslash documentclass[12pt, a4paper]\{article\}		\\[1ex]
+\textbackslash usepackage\{xeCJK\}	\\
+\textbackslash setmainfont\{Times New Roman\}		\\[1ex]
+\textbackslash defaultCJKfontfeatures\{AutoFakeBold=6, AutoFakeSlant=0.4\}	\\
+\textbackslash setCJKmainfont\{新細明體\}	\\
+\textbackslash newCJKfontfamily \textbackslash Kai\{標楷體\}	\\       	
+\textbackslash newCJKfontfamily \textbackslash Hei\{微軟正黑體\}	\\  
+\textbackslash newCJKfontfamily \textbackslash NewMing\{新細明體\} 	\\
+\textbackslash XeTeXlinebreaklocale "zh"            \\
+\textbackslash XeTeXlinebreakskip = 0pt plus 1pt  \\[1ex]
+\textbackslash begin\{document\}	\\
+\hspace*{1em} 範例\\
+\textbackslash end\{document\}
+\end{document}
