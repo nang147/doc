@@ -2,7 +2,7 @@
 title: "FreeBSD configuration"
 Author: "NG"
 Date: "26 June 2020"
-output: html_document
+output: pdf_document
 ---
 
 ### Installation and update system
@@ -132,6 +132,10 @@ sysctl dev.cpu | grep temp
 ```{}
 grep memory /var/run/dmesg.boot
 ```
+
+### More to learn...
+- zfs
+- jail
 
 ### Configure TOR, obfs4proxy, privoxy
 ```{}
