@@ -2,7 +2,7 @@
 title: "FreeBSD configuration"
 Author: "NG"
 Date: "26 June 2020"
-output: pdf_document
+output: html_document
 ---
 
 ### Installation and update system
@@ -26,14 +26,19 @@ sysrc firewall_type="workstation"
 ### Install graphic driver
 ```{}
 pkg install drm-kmod
+# usually drm-current-kmod
+# or install stable version instead, e.g. drm-xxx-kmod
 echo "kld_list="/boot/modules/i915kms.ko"" >> /etc/rc.conf
 ```
 
-### Install sudo and configure sudoers
+### Install sudo and configure sudoers, or use doas as alternative
 ```{}
 pkg install sudo
 visudo
 # add username under root and follow the syntax
+or
+pkg install doas
+# edit doas.conf 
 ```
 
 ### Install X Window
@@ -89,6 +94,43 @@ echo "dwm" >> ~/.xinitrc
 ```{}
 echo "moused_enable=YES" >> /etc/rc.conf
 service moused restart
+```
+
+### Enable libinput
+```{}
+echo "kern.evdev.rcpt_mask=12" >> /etc/sysctl.conf
+echo "hw.psm.synaptics_support='1'" >> /boot/loader.conf
+```
+
+### Switch between hardware audio or headphone
+```{}
+# check output sources
+cat /dev/sndstat
+# 0 = internal; 1 = headphone; 2 = HDMI
+sysctl hw.snd.default_unit=1
+```
+
+### Switch off screen to save power
+```{}
+xset dpms force off
+# enable blanking to really switch off screen
+xset s blank
+# can use 'xset q' to check configuration
+```
+
+### Check CPU temperature
+```{}
+# load coretemp modulus
+kldload coretemp
+# if want to auto load during boot
+echo "coretemp_load='YES'" >> /boot/loader.conf
+# Check temperature
+sysctl dev.cpu | grep temp
+```
+
+### Check RAM usage
+```{}
+grep memory /var/run/dmesg.boot
 ```
 
 ### Configure TOR, obfs4proxy, privoxy

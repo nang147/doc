@@ -199,13 +199,18 @@ sysrc firewall_type=&quot;workstation&quot;</code></pre>
 <div id="install-graphic-driver" class="section level3">
 <h3>Install graphic driver</h3>
 <pre><code>pkg install drm-kmod
+# usually drm-current-kmod
+# or install stable version instead, e.g. drm-xxx-kmod
 echo &quot;kld_list=&quot;/boot/modules/i915kms.ko&quot;&quot; &gt;&gt; /etc/rc.conf</code></pre>
 </div>
-<div id="install-sudo-and-configure-sudoers" class="section level3">
-<h3>Install sudo and configure sudoers</h3>
+<div id="install-sudo-and-configure-sudoers-or-use-doas-as-alternative" class="section level3">
+<h3>Install sudo and configure sudoers, or use doas as alternative</h3>
 <pre><code>pkg install sudo
 visudo
-# add username under root and follow the syntax</code></pre>
+# add username under root and follow the syntax
+or
+pkg install doas
+# edit doas.conf </code></pre>
 </div>
 <div id="install-x-window" class="section level3">
 <h3>Install X Window</h3>
@@ -249,13 +254,45 @@ make clean install</code></pre>
 </div>
 <div id="edit-.xinitrc" class="section level3">
 <h3>Edit .xinitrc</h3>
-<pre><code>cp /usr/local/etc/X11/xinitrc ~/.xinitrc
+<pre><code>cp /usr/local/etc/X11/xinit/xinitrc ~/.xinitrc
 echo &quot;dwm&quot; &gt;&gt; ~/.xinitrc</code></pre>
 </div>
 <div id="load-mouse-module" class="section level3">
 <h3>Load mouse module</h3>
 <pre><code>echo &quot;moused_enable=YES&quot; &gt;&gt; /etc/rc.conf
 service moused restart</code></pre>
+</div>
+<div id="enable-libinput" class="section level3">
+<h3>Enable libinput</h3>
+<pre><code>echo &quot;kern.evdev.rcpt_mask=12&quot; &gt;&gt; /etc/sysctl.conf
+echo &quot;hw.psm.synaptics_support='1'&quot; &gt;&gt; /boot/loader.conf</code></pre>
+</div>
+<div id="switch-between-hardware-audio-or-headphone" class="section level3">
+<h3>Switch between hardware audio or headphone</h3>
+<pre><code># check output sources
+cat /dev/sndstat
+# 0 = internal; 1 = headphone; 2 = HDMI
+sysctl hw.snd.default_unit=1</code></pre>
+</div>
+<div id="switch-off-screen-to-save-power" class="section level3">
+<h3>Switch off screen to save power</h3>
+<pre><code>xset dpms force off
+# enable blanking to really switch off screen
+xset s blank
+# can use 'xset q' to check configuration</code></pre>
+</div>
+<div id="check-cpu-temperature" class="section level3">
+<h3>Check CPU temperature</h3>
+<pre><code># load coretemp modulus
+kldload coretemp
+# if want to auto load during boot
+echo &quot;coretemp_load='YES'&quot; &gt;&gt; /boot/loader.conf
+# Check temperature
+sysctl dev.cpu | grep temp</code></pre>
+</div>
+<div id="check-ram-usage" class="section level3">
+<h3>Check RAM usage</h3>
+<pre><code>grep memory /var/run/dmesg.boot</code></pre>
 </div>
 <div id="configure-tor-obfs4proxy-privoxy" class="section level3">
 <h3>Configure TOR, obfs4proxy, privoxy</h3>
