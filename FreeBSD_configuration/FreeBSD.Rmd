@@ -17,6 +17,12 @@ sysctl kern.vt.enable_bell=0
 echo "kern.vt.enable_bell=0" >> /etc/sysctl.conf
 ```
 
+### Autoboot delay
+```{}
+echo autoboot_delay="1" >> /boot/loader.conf
+# -1 for no user interrupts. NO to disable
+```
+
 ### Start firewall
 ```{}
 sysrc firewall_enable="YES"
