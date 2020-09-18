@@ -136,7 +136,10 @@ sysctl dev.cpu | grep temp
 
 ### Check RAM usage
 ```{}
+# show available memory
 grep memory /var/run/dmesg.boot
+# show usage
+vnstat
 ```
 
 ### More to learn...
