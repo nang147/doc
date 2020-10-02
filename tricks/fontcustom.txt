@@ -1,0 +1,43 @@
+1. download noto-fonts-cjk
+2. sudo ln -s /etc/fonts/conf.avail/70-noto-cjk.conf /etc/fonts/conf.d/
+3. edit 70-noto-cjk.conf under /etc/fonts/conf.d
+	zh-hk use noto serif cjk tc, noto sans cjk hk, noto sans mono cjk hk
+4. edit 65-nonlatin.conf
+	add noto fonts at the begining of cjk font
+	syntax: <family>Noto Serif CJK TC</family> <!-- cjk -->
+5. edit 60-latin.conf
+	add prefered font at the beginning
+	syntax: <family>Prefered font</family>
+6. adjust fontconfig
+	6.1 Obtional antialias
+		create 10-antialias.conf under conf.avail by: sudo vim 10-antialias.conf
+		add:
+			<?xml version="1.0"?>
+			<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+			<fontconfig>
+				<!-- Use the antialiasing -->
+				<match target="pattern">
+					<edit name="antialias" mode="append"><bool>true</bool></edit>
+				</match>
+			</config>
+		save the file
+		link to conf.d by:
+		sudo ln -s /etc/fonts/conf.avail/10-antialias.conf /etc/fonts/conf.d/
+	6.2 Hinting
+		sudo ln -s /etc/fonts/conf.avail/10-hinting-*.conf /etc/fonts/conf.d/
+	6.3 Sub-pixel rendering
+		sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d/
+		sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d/
+	6.4 Scale factor
+		create fontconfig file, e.g. vim 10-dpi.conf
+		add:
+			<?xml version="1.0"?>
+			<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+			<fontconfig>
+				<match target="pattern">
+					<!-- default dpi is 96 -->
+					<!-- edit according to monitor dpi -->
+					<edit name="dpi" mode="assign"><double>96</double></edit>
+				</match>
+			</config>
+		link to conf.d
