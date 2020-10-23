@@ -1,0 +1,5 @@
+about://flags
+
+search "media session" (Hardware Media Key Handling)
+
+switch to disable
