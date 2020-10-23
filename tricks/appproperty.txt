@@ -1,0 +1,5 @@
+run xprop
+then click on window
+
+run xwininfo
+then click on window
