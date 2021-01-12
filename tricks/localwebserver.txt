@@ -1,0 +1,7 @@
+控制台
+程式和功能
+開啟window 功能
+Internet Information Services
+檔案總管 > 本機右鍵 > 管理
+服務與應用程式 > IIS > 站台右鍵 > 新增網站
+新網站 > 瀏覽目錄 > 開啟功能 > 開啟
