@@ -13,3 +13,6 @@ VBoxManage setextradata "macOS-VBox" "VBoxInternal/Devices/smc/0/Config/GetKeyFr
 VBoxManage setextradata "macOS-VBox" VBoxInternal2/EfiGopMode 4
 
 no need according to Arch Wiki# VBoxManage setextradata "macOS-VBox" "VBoxInternal/Devices/efi/0/Config/DmiSystemProduct" "iMac11,3"
+
+Change resolution
+VBoxManage.exe setextradata "macOS-VBox" VBoxInternal2/EfiGraphicsResolution 1920x1080
